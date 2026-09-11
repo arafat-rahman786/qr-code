@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>QR Code Generator</title>
+
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Google Font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+    </style>
+</head>
+
+<body class="bg-[#f3f6fc] min-h-screen">
+
+    <!-- Main Container -->
+    <div class="max-w-3xl mx-auto px-4 py-12">
+
+        <!-- Header -->
+        <div class="text-center mb-12">
+            <h1 class="text-4xl md:text-5xl font-extrabold text-[#293548] mb-4">
+                QR Code Generator
+            </h1>
+
+            <p class="text-gray-500 text-base md:text-lg">
+                Create and download QR codes instantly
+            </p>
+        </div>
+
+
+        <!-- Card -->
+        <div class="bg-white rounded-2xl shadow-lg p-8 md:p-10">
+
+            <!-- Input Section -->
+            <div class="mb-8">
+                <label for="qrInput" class="block text-sm font-semibold text-gray-700 mb-3">
+                    Enter Text or URL
+                </label>
+
+                <input
+                    type="text"
+                    id="qrInput"
+                    placeholder="https://example.com"
+                    class="w-full border border-gray-300 rounded-lg px-4 py-3.5 outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition"
+                >
+            </div>
+
+
+            <!-- Settings Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+
+                <!-- Size -->
+                <div>
+                    <label for="sizeSelect" class="block text-sm font-semibold text-gray-700 mb-3">
+                        Size
+                    </label>
+
+                    <select
+                        id="sizeSelect"
+                        class="w-full border border-gray-300 rounded-lg px-4 py-3.5 bg-white text-gray-600 outline-none focus:ring-2 focus:ring-blue-500 cursor-pointer"
+                    >
+                        <option value="128">128x128px</option>
+                        <option value="256" selected>256x256px</option>
+                        <option value="512">512x512px</option>
+                        <option value="1024">1024x1024px</option>
+                    </select>
+                </div>
+
+
+                <!-- Error Correction -->
+                <div>
+                    <label for="errorCorrection" class="block text-sm font-semibold text-gray-700 mb-3">
+                        Error Correction
+                    </label>
+
+                    <select
+                        id="errorCorrection"
+                        class="w-full border border-gray-300 rounded-lg px-4 py-3.5 bg-white text-gray-600 outline-none focus:ring-2 focus:ring-blue-500 cursor-pointer"
+                    >
+                        <option value="L">Low (7%)</option>
+                        <option value="M" selected>Medium (15%)</option>
+                        <option value="Q">Quartile (25%)</option>
+                        <option value="H">High (30%)</option>
+                    </select>
+                </div>
+
+            </div>
+
+
+            <!-- QR Code Preview Area -->
+            <div class="border-2 border-dashed border-gray-200 rounded-xl bg-[#fafcff] min-h-[400px] flex items-center justify-center mb-8">
+
+                <!-- Placeholder QR Image -->
+                <div id="qrContainer" class="text-center">
+
+                    <img
+                        id="qrPreview"
+                        src="https://api.qrserver.com/v1/create-qr-code/?size=256x256&data=https://example.com"
+                        alt="QR Code Preview"
+                        class="w-64 h-64 object-contain mx-auto"
+                    >
+
+                    <p id="placeholderText" class="text-gray-400 text-sm mt-4 hidden">
+                        Your QR Code will appear here
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <!-- Buttons -->
+            <div class="flex flex-col sm:flex-row justify-center gap-3">
+
+                <!-- Download Button -->
+                <a
+                    href="#"
+                    id="downloadBtn"
+                    class="flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 text-white font-semibold px-6 py-3 rounded-lg transition shadow-sm"
+                >
+                    <svg xmlns="http://www.w3.org/2000/svg"
+                        class="w-5 h-5"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                        stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                            d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1M12 3v13m0 0l-4-4m4 4l4-4"/>
+                    </svg>
+
+                    Download PNG
+                </a>
+
+
+                <!-- Copy Button -->
+                <button
+                    id="copyBtn"
+                    type="button"
+                    class="flex items-center justify-center gap-2 border-2 border-blue-600 text-blue-600 hover:bg-blue-50 font-semibold px-6 py-3 rounded-lg transition"
+                >
+                    <svg xmlns="http://www.w3.org/2000/svg"
+                        class="w-5 h-5"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                        stroke-width="2">
+                        <rect width="14" height="14" x="8" y="8" rx="2" ry="2"/>
+                        <path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/>
+                    </svg>
+
+                    Copy Image
+                </button>
+
+            </div>
+
+
+            <!-- Optional Status Message -->
+            <p
+                id="statusMessage"
+                class="text-center text-sm text-green-600 mt-4 hidden"
+            >
+                QR Code copied successfully!
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <!-- JavaScript File -->
+    <script src="script.js"></script>
+
+</body>
+</html>
